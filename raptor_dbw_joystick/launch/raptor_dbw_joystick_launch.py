@@ -51,45 +51,32 @@ from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration
 from launch.substitutions import ThisLaunchFileDir
 from launch_ros.actions import Node
+from launch.actions import IncludeLaunchDescription
+from launch.launch_description_sources import PythonLaunchDescriptionSource
+import os
 
 
 def generate_launch_description():
-    params_file = LaunchConfiguration(
-        'params',
-        default=[ThisLaunchFileDir(), '/launch_params.yaml'])
-
-    # make sure the dbc file gets installed with the launch file
-    dbc_file_path = get_package_share_directory('raptor_dbw_can') + \
-        '/launch/New_Eagle_DBW_3.4.dbc'
+    pkg_dir = get_package_share_directory('raptor_dbw_joystick')
+    params_file = os.path.join(pkg_dir, "launch", "launch_params.yaml")
 
     return LaunchDescription(
         [
-            Node(
-                package='raptor_dbw_can',
-                executable='raptor_dbw_can_node',
-                output='screen',
-                namespace='raptor_dbw_interface',
-                parameters=[
-                    {'dbw_dbc_file': dbc_file_path},
-                    params_file
-                ],
-            ),
-            Node(
-                package='kvaser_interface',
-                executable='kvaser_can_bridge',
-                output='screen',
-                namespace='raptor_dbw_interface',
-                parameters=[params_file]),
+            IncludeLaunchDescription(
+                PythonLaunchDescriptionSource(
+                    os.path.join(get_package_share_directory('raptor_dbw_can'), 'launch',
+                                 'raptor.launch.py')
+                )),
             Node(
                 package='raptor_dbw_joystick',
                 executable='raptor_dbw_joystick_node',
                 output='screen',
                 namespace='raptor_dbw_interface',
                 parameters=[params_file]
-                ),
+            ),
             Node(
-                package='joy',
-                executable='joy_node',
+                package='joy_linux',
+                executable='joy_linux_node',
                 output='screen',
                 namespace='raptor_dbw_interface',
                 parameters=[params_file]
