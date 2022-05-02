@@ -22,9 +22,12 @@ def generate_launch_description():
     # get package directory
     pkg_dir = get_package_share_directory('raptor_dbw_can')
 
-    dbc_file_path = os.path.join(pkg_dir, "config", "New_Eagle_DBW_3.4.dbc")
+    dbc_file_path = DeclareLaunchArgument(
+        'dbc_file_path',
+        default_value=os.path.join(get_package_share_directory(
+            'evkart_launch'), "config", "can", '/launch/New_Eagle_DBW_3.4.dbc'))
 
-    raptor_param_file =  os.path.join(pkg_dir, "param", "launch_params.yaml")
+    raptor_param_file = os.path.join(pkg_dir, "param", "launch_params.yaml")
 
     socket_can_receiver_node = LifecycleNode(
         package="ros2_socketcan",
@@ -47,7 +50,8 @@ def generate_launch_description():
             on_start=[
                 EmitEvent(
                     event=ChangeState(
-                        lifecycle_node_matcher=matches_action(socket_can_receiver_node),
+                        lifecycle_node_matcher=matches_action(
+                            socket_can_receiver_node),
                         transition_id=Transition.TRANSITION_CONFIGURE,
                     ),
                 ),
@@ -64,7 +68,8 @@ def generate_launch_description():
             entities=[
                 EmitEvent(
                     event=ChangeState(
-                        lifecycle_node_matcher=matches_action(socket_can_receiver_node),
+                        lifecycle_node_matcher=matches_action(
+                            socket_can_receiver_node),
                         transition_id=Transition.TRANSITION_ACTIVATE,
                     ),
                 ),
@@ -93,7 +98,8 @@ def generate_launch_description():
             on_start=[
                 EmitEvent(
                     event=ChangeState(
-                        lifecycle_node_matcher=matches_action(socket_can_sender_node),
+                        lifecycle_node_matcher=matches_action(
+                            socket_can_sender_node),
                         transition_id=Transition.TRANSITION_CONFIGURE,
                     ),
                 ),
@@ -110,7 +116,8 @@ def generate_launch_description():
             entities=[
                 EmitEvent(
                     event=ChangeState(
-                        lifecycle_node_matcher=matches_action(socket_can_sender_node),
+                        lifecycle_node_matcher=matches_action(
+                            socket_can_sender_node),
                         transition_id=Transition.TRANSITION_ACTIVATE,
                     ),
                 ),
@@ -126,7 +133,7 @@ def generate_launch_description():
         namespace='raptor_dbw_interface',
         parameters=[
             raptor_param_file,
-            {'dbw_dbc_file': dbc_file_path},
+            {'dbw_dbc_file': LaunchConfiguration('dbc_file_path')},
         ],
         remappings=[
             ('can_tx', '/from_can_bus'),
@@ -151,6 +158,7 @@ def generate_launch_description():
         socket_can_sender_configure_event_handler,
         socket_can_sender_activate_event_handler,
         raptor_node,
+        dbc_file_path
     ]
 
-    return LaunchDescription(launch_description) #, param_declarations])
+    return LaunchDescription(launch_description)  # , param_declarations])
