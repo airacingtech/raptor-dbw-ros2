@@ -1,0 +1,12 @@
+builtin_interfaces/Time stamp
+
+uint8 dbw_reserved2
+uint8 dbw_sonararcnumrr
+uint8 dbw_sonararcnumrl
+uint8 dbw_sonararcnumrc
+uint8 dbw_sonararcnumfr
+uint8 dbw_sonararcnumfl
+uint8 dbw_sonararcnumfc
+float32 dbw_sonarreardist
+uint8 dbw_reserved3
+uint8 dbw_sonarvld

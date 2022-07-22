@@ -1,0 +1,8 @@
+builtin_interfaces/Time stamp
+
+float32 dbw_lvdbwbattvlt
+float32 dbw_lvvehbattvlt
+uint8 dbw_lvbattcurr
+uint8 dbw_lvdcdccurr
+uint8 dbw_lvalternatorcurr
+uint8 dbw_lvinvtrcontactorcmd

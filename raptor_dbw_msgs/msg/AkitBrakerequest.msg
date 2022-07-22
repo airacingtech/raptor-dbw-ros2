@@ -1,0 +1,11 @@
+builtin_interfaces/Time stamp
+
+float32 akit_brakepedalreq
+float32 akit_brakepcnttorquereq
+uint8 akit_parkingbrkreq
+float32 akit_speedmodedecellim
+float32 akit_speedmodenegjerklim
+uint8 akit_brakectrlreqtype
+uint8 akit_brakerollingcntr
+uint8 akit_brakectrlenblreq
+uint8 akit_brakechecksum

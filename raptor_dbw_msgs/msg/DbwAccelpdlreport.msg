@@ -1,0 +1,13 @@
+builtin_interfaces/Time stamp
+
+float32 dbw_accelpdldriverinput
+float32 dbw_accelpdlposnfdbck
+float32 dbw_accelpcnttorqueactual
+uint8 dbw_accelctrltype
+uint8 dbw_accelpdlenabled
+uint8 dbw_accelpdlignoredriver
+uint8 dbw_accelpdldriveractivity
+uint8 dbw_accelpdlfault
+uint8 dbw_accelpdlfault_ch1
+uint8 dbw_accelpdlfault_ch2
+uint8 dbw_accelpdlrollingcntr

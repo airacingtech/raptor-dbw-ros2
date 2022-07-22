@@ -1,0 +1,12 @@
+builtin_interfaces/Time stamp
+
+float32 dbw_steeringwhlangleact
+float32 dbw_steeringwhlangledes
+float32 dbw_steeringwhlpcnttrqcmd
+uint8 dbw_steeringctrltype
+uint8 dbw_steeringenabled
+uint8 dbw_steeringdriveractivity
+uint8 dbw_steeringfault
+uint8 dbw_overheatpreventmode
+uint8 dbw_steeringoverheatwarning
+uint8 dbw_steeringrollingcntr

@@ -1,0 +1,13 @@
+builtin_interfaces/Time stamp
+
+float32 dbw_brakepdldriverinput
+float32 dbw_brakepdlposnfdbck
+float32 dbw_brakepcnttorqueactual
+uint8 dbw_brakectrltype
+uint8 dbw_brakeenabled
+uint8 dbw_brakedriveractivity
+uint8 dbw_brakefault
+uint8 dbw_brakeparkingbrkstatus
+uint8 dbw_brakerollingcntr
+uint8 dbw_brakeinterventionactv
+uint8 dbw_brakeinterventionready

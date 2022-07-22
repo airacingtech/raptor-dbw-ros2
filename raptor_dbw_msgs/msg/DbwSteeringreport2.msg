@@ -1,0 +1,7 @@
+builtin_interfaces/Time stamp
+
+float32 dbw_steeringvehcurvatureact
+float32 dbw_pacificasteertrq
+float32 dbw_steertrq_motor
+float32 dbw_steertrq_driver
+float32 dbw_steertrq_driverexpectedvalue

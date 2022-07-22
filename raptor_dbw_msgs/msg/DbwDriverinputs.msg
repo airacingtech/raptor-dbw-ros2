@@ -1,0 +1,21 @@
+builtin_interfaces/Time stamp
+
+uint8 dbw_occupanydoororhoodajar
+uint8 dbw_occupanyairbagdeployed
+uint8 dbw_occupanyseatbeltunbuckled
+uint8 dbw_drvinputstrwhlbtna
+uint8 dbw_drvinputstrwhlbtnb
+uint8 dbw_drvinputstrwhlbtnc
+uint8 dbw_drvinputstrwhlbtnd
+uint8 dbw_drvinputstrwhlbtne
+uint8 dbw_drvinptcruiseresumebtn
+uint8 dbw_drvinptcruisecancelbtn
+uint8 dbw_drvinptcruiseaccelbtn
+uint8 dbw_drvinptcruisedecelbtn
+uint8 dbw_drvinptcruiseonoffbtn
+uint8 dbw_drvinptacconoffbtn
+uint8 dbw_drvinptaccincdistbtn
+uint8 dbw_drvinptaccdecdistbtn
+uint8 dbw_drvinpthibeam
+uint8 dbw_drvinptturnsignal
+uint8 dbw_drvinptwiper

@@ -1,0 +1,7 @@
+builtin_interfaces/Time stamp
+
+uint8 akit_globalbywireenblreq
+uint8 akit_enbljoysticklimits
+uint16 akit_softwarebuildnumber
+uint8 akit_globalenblrollingcntr
+uint8 akit_globalenblchecksum

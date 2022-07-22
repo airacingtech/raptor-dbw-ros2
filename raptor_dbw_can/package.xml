@@ -15,14 +15,7 @@
   <depend>rclcpp</depend>
   <depend>raptor_dbw_msgs</depend>
   <depend>can_msgs</depend>
-  <depend>std_msgs</depend>
-  <depend>geometry_msgs</depend>
-  <depend>sensor_msgs</depend>
   <depend>can_dbc_parser</depend>
-  <depend>raptor_pdu</depend>
-  <depend>raptor_pdu_msgs</depend>
-
-  <exec_depend>ros2_socketcan</exec_depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

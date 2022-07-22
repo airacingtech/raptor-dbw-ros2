@@ -1,0 +1,11 @@
+builtin_interfaces/Time stamp
+
+float32 akit_steeringwhlanglereq
+float32 akit_steeringwhlpcnttrqreq
+float32 akit_steeringvehcurvaturereq
+uint8 akit_steeringwhlanglevelocitylim
+uint8 akit_steeringreqtype
+uint8 akit_steerrollingcntr
+uint8 akit_steerctrlenblreq
+uint8 akit_steeringwhlignoredriverovrd
+uint8 akit_steeringchecksum

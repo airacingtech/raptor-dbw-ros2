@@ -1,0 +1,15 @@
+builtin_interfaces/Time stamp
+
+uint8 dbw_doorlockstate
+uint8 dbw_turnsignalstate
+uint8 dbw_turnsignalsyncbit
+uint8 dbw_rightreardoorstate
+uint8 dbw_leftreardoorstate
+uint8 dbw_hornstate
+uint8 dbw_frontwiperstate
+uint8 dbw_rearwiperstate
+uint8 dbw_ignitionstate
+uint8 dbw_highbeamstate
+uint8 dbw_lowbeamstate
+uint8 dbw_liftgatedoorstate
+uint8 dbw_otheractrollingcntr

@@ -1,0 +1,6 @@
+builtin_interfaces/Time stamp
+
+uint8 akit_prndstatereq
+uint8 akit_prndrollingcntr
+uint8 akit_prndctrlenblreq
+uint8 akit_prndchecksum

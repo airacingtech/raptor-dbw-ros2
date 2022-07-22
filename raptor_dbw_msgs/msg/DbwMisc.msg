@@ -1,0 +1,12 @@
+builtin_interfaces/Time stamp
+
+uint8 dbw_miscbywireenabled
+uint8 dbw_miscfault
+uint8 dbw_miscakitcommfault
+uint8 dbw_miscbywireready
+uint8 dbw_miscdriveractivity
+uint8 dbw_vehreadytodrive
+float32 dbw_miscvehiclespeed
+float32 dbw_miscfuellvl
+uint16 dbw_softwarebuildnumber
+uint8 dbw_ambienttemp

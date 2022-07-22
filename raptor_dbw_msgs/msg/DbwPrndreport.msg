@@ -1,0 +1,9 @@
+builtin_interfaces/Time stamp
+
+uint8 dbw_prndstateactual
+uint8 dbw_transcurgear
+uint8 dbw_prndstatereject
+uint8 dbw_prndmismatchflash
+uint8 dbw_prnddriveractivity
+uint8 dbw_prndfault
+uint8 dbw_prndctrlenabled

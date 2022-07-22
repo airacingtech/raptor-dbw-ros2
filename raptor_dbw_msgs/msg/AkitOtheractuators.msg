@@ -1,0 +1,18 @@
+builtin_interfaces/Time stamp
+
+uint8 akit_doorlockreq
+uint8 akit_turnsignalreq
+uint8 akit_rightreardoorreq
+uint8 akit_leftreardoorreq
+uint8 akit_hornreq
+uint8 akit_blockbasiccruisectrlbtns
+uint8 akit_blockadapcruisectrlbtns
+uint8 akit_blockturnsigstalkinpts
+uint8 akit_frontwiperreq
+uint8 akit_rearwiperreq
+uint8 akit_ignitionreq
+uint8 akit_highbeamreq
+uint8 akit_lowbeamreq
+uint8 akit_liftgatedoorreq
+uint8 akit_otherrollingcntr
+uint8 akit_otherchecksum

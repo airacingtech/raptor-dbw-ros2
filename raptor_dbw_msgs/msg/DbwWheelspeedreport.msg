@@ -1,0 +1,6 @@
+builtin_interfaces/Time stamp
+
+float32 dbw_whlspd_fl
+float32 dbw_whlspd_fr
+float32 dbw_whlspd_rl
+float32 dbw_whlspd_rr

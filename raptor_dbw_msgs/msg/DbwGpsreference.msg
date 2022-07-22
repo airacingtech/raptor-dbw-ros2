@@ -1,0 +1,5 @@
+builtin_interfaces/Time stamp
+
+float32 dbw_gpsreflat
+float32 dbw_gpsreflong
+float32 dbw_gpsheading

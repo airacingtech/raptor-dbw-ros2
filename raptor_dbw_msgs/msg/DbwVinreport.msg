@@ -1,0 +1,20 @@
+builtin_interfaces/Time stamp
+
+uint8 dbw_vinmultiplexor
+uint8 dbw_vindigit_01
+uint8 dbw_vindigit_08
+uint8 dbw_vindigit_15
+uint8 dbw_vindigit_02
+uint8 dbw_vindigit_09
+uint8 dbw_vindigit_16
+uint8 dbw_vindigit_03
+uint8 dbw_vindigit_10
+uint8 dbw_vindigit_17
+uint8 dbw_vindigit_04
+uint8 dbw_vindigit_11
+uint8 dbw_vindigit_05
+uint8 dbw_vindigit_12
+uint8 dbw_vindigit_06
+uint8 dbw_vindigit_13
+uint8 dbw_vindigit_07
+uint8 dbw_vindigit_14

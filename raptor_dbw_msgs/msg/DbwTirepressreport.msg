@@ -1,0 +1,6 @@
+builtin_interfaces/Time stamp
+
+float32 dbw_tirepressrr
+float32 dbw_tirepressrl
+float32 dbw_tirepressfr
+float32 dbw_tirepressfl

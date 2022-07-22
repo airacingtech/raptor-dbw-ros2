@@ -1,0 +1,13 @@
+builtin_interfaces/Time stamp
+
+float32 akit_accelpdlreq
+float32 akit_accelpcnttorquereq
+float32 akit_speedreq
+float32 akit_speedmodeaccellim
+float32 akit_speedmodeposjerklim
+float32 akit_speedmoderoadslope
+uint8 akit_accelreqtype
+uint8 akit_accelpdlrollingcntr
+uint8 akit_accelpdlenblreq
+uint8 akit_accelpdlignoredriverovrd
+uint8 akit_accelpdlchecksum

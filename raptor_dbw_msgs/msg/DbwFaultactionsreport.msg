@@ -1,0 +1,12 @@
+builtin_interfaces/Time stamp
+
+uint8 dbw_fltact_autondsblnobrakes
+uint8 dbw_fltact_autondsblapplybrakes
+uint8 dbw_fltact_cangatewaydsbl
+uint8 dbw_fltact_invtrcntctrdsbl
+uint8 dbw_fltact_prevententerautonmode
+uint8 dbw_fltact_warndriveronly
+uint8 dbw_emgrstopbtnprssd
+uint8 dbw_remoteemgrstopbtnprssd
+uint8 dbw_fltact_chime_fcwbeeps
+uint16 dbw_idxoflastactivefault
