@@ -151,7 +151,6 @@ private:
 	void recvDbwBrakereport(const Frame::SharedPtr msg, DbcMessage * message);
 	void recvDbwPrndreport(const Frame::SharedPtr msg, DbcMessage * message);
 	void recvDbwWheelpositionreport(const Frame::SharedPtr msg, DbcMessage * message);
-	void recvAkitGlobalenbl(const Frame::SharedPtr msg, DbcMessage * message);
 	void recvAkitOtheractuators(const Frame::SharedPtr msg, DbcMessage * message);
 	void recvDbwDriverinputs(const Frame::SharedPtr msg, DbcMessage * message);
 	void recvDbwTirepressreport(const Frame::SharedPtr msg, DbcMessage * message);
@@ -179,6 +178,7 @@ private:
 	void recvDbwReserved1f25(const Frame::SharedPtr msg, DbcMessage * message);
 
     void recvAkitAccelpdlrequest(const AkitAccelpdlrequest::SharedPtr msg);
+	void recvAkitGlobalenbl(const AkitGlobalenbl::SharedPtr msg);
 	void recvAkitSteeringrequest(const AkitSteeringrequest::SharedPtr msg);
 	void recvAkitBrakerequest(const AkitBrakerequest::SharedPtr msg);
 	void recvAkitPrndrequest(const AkitPrndrequest::SharedPtr msg);

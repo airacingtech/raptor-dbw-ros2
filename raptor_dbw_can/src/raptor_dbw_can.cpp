@@ -57,7 +57,6 @@ RaptorDbwCAN::RaptorDbwCAN(const rclcpp::NodeOptions & options)
 	pubDbwBrakereport_ = this->create_publisher<DbwBrakereport>("dbw_brakereport", rclcpp::SensorDataQoS());
 	pubDbwPrndreport_ = this->create_publisher<DbwPrndreport>("dbw_prndreport", rclcpp::SensorDataQoS());
 	pubDbwWheelpositionreport_ = this->create_publisher<DbwWheelpositionreport>("dbw_wheelpositionreport", rclcpp::SensorDataQoS());
-	pubAkitGlobalenbl_ = this->create_publisher<AkitGlobalenbl>("akit_globalenbl", rclcpp::SensorDataQoS());
 	pubAkitOtheractuators_ = this->create_publisher<AkitOtheractuators>("akit_otheractuators", rclcpp::SensorDataQoS());
 	pubDbwDriverinputs_ = this->create_publisher<DbwDriverinputs>("dbw_driverinputs", rclcpp::SensorDataQoS());
 	pubDbwTirepressreport_ = this->create_publisher<DbwTirepressreport>("dbw_tirepressreport", rclcpp::SensorDataQoS());
@@ -85,6 +84,7 @@ RaptorDbwCAN::RaptorDbwCAN(const rclcpp::NodeOptions & options)
 	pubDbwReserved1f25_ = this->create_publisher<DbwReserved1f25>("dbw_reserved_1f25", rclcpp::SensorDataQoS());
 
     subAkitAccelpdlrequest_ = this->create_subscription<AkitAccelpdlrequest>("akit_accelpdlrequest", rclcpp::SensorDataQoS(), std::bind(&RaptorDbwCAN::recvAkitAccelpdlrequest, this, std::placeholders::_1));
+	subAkitGlobalenbl_ = this->create_subscription<AkitGlobalenbl>("akit_globalenbl", rclcpp::SensorDataQoS(), std::bind(&RaptorDbwCAN::recvAkitGlobalenbl, this, std::placeholders::_1));
 	subAkitSteeringrequest_ = this->create_subscription<AkitSteeringrequest>("akit_steeringrequest", rclcpp::SensorDataQoS(), std::bind(&RaptorDbwCAN::recvAkitSteeringrequest, this, std::placeholders::_1));
 	subAkitBrakerequest_ = this->create_subscription<AkitBrakerequest>("akit_brakerequest", rclcpp::SensorDataQoS(), std::bind(&RaptorDbwCAN::recvAkitBrakerequest, this, std::placeholders::_1));
 	subAkitPrndrequest_ = this->create_subscription<AkitPrndrequest>("akit_prndrequest", rclcpp::SensorDataQoS(), std::bind(&RaptorDbwCAN::recvAkitPrndrequest, this, std::placeholders::_1));
@@ -123,9 +123,6 @@ void RaptorDbwCAN::recvCAN(const Frame::SharedPtr msg)
 				break;
 			case ID_DBW_WHEELPOSITIONREPORT:
 				RECV_DBC(recvDbwWheelpositionreport);
-				break;
-			case ID_AKIT_GLOBALENBL:
-				RECV_DBC(recvAkitGlobalenbl);
 				break;
 			case ID_AKIT_OTHERACTUATORS:
 				RECV_DBC(recvAkitOtheractuators);
@@ -314,20 +311,6 @@ void RaptorDbwCAN::recvDbwWheelpositionreport(const Frame::SharedPtr msg, DbcMes
 	out.dbw_whlpulsesperrev = message->GetSignal("DBW_WhlPulsesPerRev")->GetResult();
 
 	pubDbwWheelpositionreport_->publish(out);
-}
-
-void RaptorDbwCAN::recvAkitGlobalenbl(const Frame::SharedPtr msg, DbcMessage * message)
-{
-	AkitGlobalenbl out;
-	out.stamp = msg->header.stamp;
-
-	out.akit_globalbywireenblreq = message->GetSignal("AKit_GlobalByWireEnblReq")->GetResult();
-	out.akit_enbljoysticklimits = message->GetSignal("AKit_EnblJoystickLimits")->GetResult();
-	out.akit_softwarebuildnumber = message->GetSignal("AKit_SoftwareBuildNumber")->GetResult();
-	out.akit_globalenblrollingcntr = message->GetSignal("AKit_GlobalEnblRollingCntr")->GetResult();
-	out.akit_globalenblchecksum = message->GetSignal("Akit_GlobalEnblChecksum")->GetResult();
-
-	pubAkitGlobalenbl_->publish(out);
 }
 
 void RaptorDbwCAN::recvAkitOtheractuators(const Frame::SharedPtr msg, DbcMessage * message)
@@ -756,6 +739,20 @@ void RaptorDbwCAN::recvAkitAccelpdlrequest(const AkitAccelpdlrequest::SharedPtr 
 	message->GetSignal("AKit_AccelPdlEnblReq")->SetResult(msg->akit_accelpdlenblreq);
 	message->GetSignal("Akit_AccelPdlIgnoreDriverOvrd")->SetResult(msg->akit_accelpdlignoredriverovrd);
 	message->GetSignal("AKit_AccelPdlChecksum")->SetResult(msg->akit_accelpdlchecksum);
+
+	Frame frame = message->GetFrame();
+	pub_can_->publish(frame);
+}
+
+void RaptorDbwCAN::recvAkitGlobalenbl(const AkitGlobalenbl::SharedPtr msg)
+{
+	NewEagle::DbcMessage * message = dbw_dbc_.GetMessageById(ID_AKIT_GLOBALENBL);
+
+	message->GetSignal("AKit_GlobalByWireEnblReq")->SetResult(msg->akit_globalbywireenblreq);
+	message->GetSignal("AKit_EnblJoystickLimits")->SetResult(msg->akit_enbljoysticklimits);
+	message->GetSignal("AKit_SoftwareBuildNumber")->SetResult(msg->akit_softwarebuildnumber);
+	message->GetSignal("AKit_GlobalEnblRollingCntr")->SetResult(msg->akit_globalenblrollingcntr);
+	message->GetSignal("Akit_GlobalEnblChecksum")->SetResult(msg->akit_globalenblchecksum);
 
 	Frame frame = message->GetFrame();
 	pub_can_->publish(frame);
