@@ -37,7 +37,6 @@ int main(int argc, char ** argv)
     rclcpp::NodeOptions options{};
     rclcpp::executors::SingleThreadedExecutor exec{};
 
-    // Create RaptorDbwCAN class
     auto node = std::make_shared<raptor_dbw_can::RaptorDbwCAN>(options);
     exec.add_node(node->get_node_base_interface());
     exec.spin();

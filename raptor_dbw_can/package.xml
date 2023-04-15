@@ -3,10 +3,10 @@
   <name>raptor_dbw_can</name>
   <version>1.2.0</version>
   <description>
-    Drive-by-wire interface to the New Eagle Raptor DBW kit
+    DBC Parsing Interface inspired by New Eagle Raptor Driver
   </description>
 
-  <maintainer email="newagleraptorgithub@neweagle.net">New Eagle</maintainer>
+  <maintainer email="sisahawork@gmail.com">Siddharth Saha</maintainer>
 
   <license>BSD</license>
 

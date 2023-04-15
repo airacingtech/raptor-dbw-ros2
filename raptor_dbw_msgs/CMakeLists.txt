@@ -50,15 +50,6 @@ set(msg_files
 	"msg/DbwFaultactionsreport.msg"
 	"msg/DbwGpsreference.msg"
 	"msg/DbwGpsremainder.msg"
-	"msg/DbwExitreport.msg"
-	"msg/DbwReserved1f20.msg"
-	"msg/DbwReserved1f21.msg"
-	"msg/DbwReserved1f22.msg"
-	"msg/DbwReserved1f23.msg"
-	"msg/AkitReserved2f07.msg"
-	"msg/AkitReserved2f08.msg"
-	"msg/AkitReserved2f09.msg"
-	"msg/DbwReserved1f25.msg"
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}

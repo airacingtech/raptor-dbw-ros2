@@ -1,7 +1,0 @@
-builtin_interfaces/Time stamp
-
-uint8 dbw_exit_akitdsbl
-uint8 dbw_exit_drvinctrl
-uint16 dbw_exit_autondsblnobrakes
-uint16 dbw_exit_autondsblappybrakes
-uint8 dbw_exit_cntr

@@ -42,11 +42,8 @@ static constexpr uint64_t MS_IN_SEC = 1000;
 RaptorDbwCAN::RaptorDbwCAN(const rclcpp::NodeOptions & options)
 : Node("raptor_dbw_can_node", options)
 {
-    vehicle_number_ = declare_parameter<uint8_t>("vehicle_number", 7);
 
-    dbw_dbc_file_ = declare_parameter<std::string>("dbw_dbc_file", "");
-    max_steer_angle_ = declare_parameter<double>("max_steer_angle", 0.0);
-    publish_my_laps_ = declare_parameter<bool>("publish_my_laps", true);
+    dbc_file_ = declare_parameter<std::string>("dbc_file", "");
 
     pub_can_ = this->create_publisher<Frame>(
         "can_rx", 20
@@ -73,15 +70,6 @@ RaptorDbwCAN::RaptorDbwCAN(const rclcpp::NodeOptions & options)
 	pubDbwFaultactionsreport_ = this->create_publisher<DbwFaultactionsreport>("dbw_faultactionsreport", rclcpp::SensorDataQoS());
 	pubDbwGpsreference_ = this->create_publisher<DbwGpsreference>("dbw_gpsreference", rclcpp::SensorDataQoS());
 	pubDbwGpsremainder_ = this->create_publisher<DbwGpsremainder>("dbw_gpsremainder", rclcpp::SensorDataQoS());
-	pubDbwExitreport_ = this->create_publisher<DbwExitreport>("dbw_exitreport", rclcpp::SensorDataQoS());
-	pubDbwReserved1f20_ = this->create_publisher<DbwReserved1f20>("dbw_reserved_1f20", rclcpp::SensorDataQoS());
-	pubDbwReserved1f21_ = this->create_publisher<DbwReserved1f21>("dbw_reserved_1f21", rclcpp::SensorDataQoS());
-	pubDbwReserved1f22_ = this->create_publisher<DbwReserved1f22>("dbw_reserved_1f22", rclcpp::SensorDataQoS());
-	pubDbwReserved1f23_ = this->create_publisher<DbwReserved1f23>("dbw_reserved_1f23", rclcpp::SensorDataQoS());
-	pubAkitReserved2f07_ = this->create_publisher<AkitReserved2f07>("akit_reserved_2f07", rclcpp::SensorDataQoS());
-	pubAkitReserved2f08_ = this->create_publisher<AkitReserved2f08>("akit_reserved_2f08", rclcpp::SensorDataQoS());
-	pubAkitReserved2f09_ = this->create_publisher<AkitReserved2f09>("akit_reserved_2f09", rclcpp::SensorDataQoS());
-	pubDbwReserved1f25_ = this->create_publisher<DbwReserved1f25>("dbw_reserved_1f25", rclcpp::SensorDataQoS());
 
     subAkitAccelpdlrequest_ = this->create_subscription<AkitAccelpdlrequest>("akit_accelpdlrequest", rclcpp::SensorDataQoS(), std::bind(&RaptorDbwCAN::recvAkitAccelpdlrequest, this, std::placeholders::_1));
 	subAkitGlobalenbl_ = this->create_subscription<AkitGlobalenbl>("akit_globalenbl", rclcpp::SensorDataQoS(), std::bind(&RaptorDbwCAN::recvAkitGlobalenbl, this, std::placeholders::_1));
@@ -93,11 +81,11 @@ RaptorDbwCAN::RaptorDbwCAN(const rclcpp::NodeOptions & options)
         std::bind(&RaptorDbwCAN::recvCAN, this, std::placeholders::_1)
     );
 
-    dbw_dbc_ = NewEagle::DbcBuilder().NewDbc(dbw_dbc_file_);
+    dbc_ = NewEagle::DbcBuilder().NewDbc(dbc_file_);
 }
 
 #define RECV_DBC(handler) \
-    message = dbw_dbc_.GetMessageById(id); \
+    message = dbc_.GetMessageById(id); \
     if (msg->dlc >= message->GetDlc()) {message->SetFrame(msg); handler(msg, message);}
 
 void RaptorDbwCAN::recvCAN(const Frame::SharedPtr msg)
@@ -171,33 +159,6 @@ void RaptorDbwCAN::recvCAN(const Frame::SharedPtr msg)
 				break;
 			case ID_DBW_GPSREMAINDER:
 				RECV_DBC(recvDbwGpsremainder);
-				break;
-			case ID_DBW_EXITREPORT:
-				RECV_DBC(recvDbwExitreport);
-				break;
-			case ID_DBW_RESERVED_1F20:
-				RECV_DBC(recvDbwReserved1f20);
-				break;
-			case ID_DBW_RESERVED_1F21:
-				RECV_DBC(recvDbwReserved1f21);
-				break;
-			case ID_DBW_RESERVED_1F22:
-				RECV_DBC(recvDbwReserved1f22);
-				break;
-			case ID_DBW_RESERVED_1F23:
-				RECV_DBC(recvDbwReserved1f23);
-				break;
-			case ID_AKIT_RESERVED_2F07:
-				RECV_DBC(recvAkitReserved2f07);
-				break;
-			case ID_AKIT_RESERVED_2F08:
-				RECV_DBC(recvAkitReserved2f08);
-				break;
-			case ID_AKIT_RESERVED_2F09:
-				RECV_DBC(recvAkitReserved2f09);
-				break;
-			case ID_DBW_RESERVED_1F25:
-				RECV_DBC(recvDbwReserved1f25);
 				break;
             default:
                 break;
@@ -599,10 +560,7 @@ void RaptorDbwCAN::recvDbwFaultactionsreport(const Frame::SharedPtr msg, DbcMess
 	out.dbw_fltact_invtrcntctrdsbl = message->GetSignal("DBW_FltAct_InvtrCntctrDsbl")->GetResult();
 	out.dbw_fltact_prevententerautonmode = message->GetSignal("DBW_FltAct_PreventEnterAutonMode")->GetResult();
 	out.dbw_fltact_warndriveronly = message->GetSignal("DBW_FltAct_WarnDriverOnly")->GetResult();
-	out.dbw_emgrstopbtnprssd = message->GetSignal("DBW_EmgrStopBtnPrssd")->GetResult();
-	out.dbw_remoteemgrstopbtnprssd = message->GetSignal("DBW_RemoteEmgrStopBtnPrssd")->GetResult();
 	out.dbw_fltact_chime_fcwbeeps = message->GetSignal("DBW_FltAct_Chime_FcwBeeps")->GetResult();
-	out.dbw_idxoflastactivefault = message->GetSignal("DBW_IdxOfLastActiveFault")->GetResult();
 
 	pubDbwFaultactionsreport_->publish(out);
 }
@@ -614,7 +572,6 @@ void RaptorDbwCAN::recvDbwGpsreference(const Frame::SharedPtr msg, DbcMessage * 
 
 	out.dbw_gpsreflat = message->GetSignal("DBW_GpsRefLat")->GetResult();
 	out.dbw_gpsreflong = message->GetSignal("DBW_GpsRefLong")->GetResult();
-	out.dbw_gpsheading = message->GetSignal("Dbw_GpsHeading")->GetResult();
 
 	pubDbwGpsreference_->publish(out);
 }
@@ -630,103 +587,9 @@ void RaptorDbwCAN::recvDbwGpsremainder(const Frame::SharedPtr msg, DbcMessage * 
 	pubDbwGpsremainder_->publish(out);
 }
 
-void RaptorDbwCAN::recvDbwExitreport(const Frame::SharedPtr msg, DbcMessage * message)
-{
-	DbwExitreport out;
-	out.stamp = msg->header.stamp;
-
-	out.dbw_exit_akitdsbl = message->GetSignal("DBW_Exit_AKitDsbl")->GetResult();
-	out.dbw_exit_drvinctrl = message->GetSignal("DBW_Exit_DrvInCtrl")->GetResult();
-	out.dbw_exit_autondsblnobrakes = message->GetSignal("DBW_Exit_AutonDsblNoBrakes")->GetResult();
-	out.dbw_exit_autondsblappybrakes = message->GetSignal("DBW_Exit_AutonDsblAppyBrakes")->GetResult();
-	out.dbw_exit_cntr = message->GetSignal("DBW_Exit_Cntr")->GetResult();
-
-	pubDbwExitreport_->publish(out);
-}
-
-void RaptorDbwCAN::recvDbwReserved1f20(const Frame::SharedPtr msg, DbcMessage * message)
-{
-	DbwReserved1f20 out;
-	out.stamp = msg->header.stamp;
-
-	
-
-	pubDbwReserved1f20_->publish(out);
-}
-
-void RaptorDbwCAN::recvDbwReserved1f21(const Frame::SharedPtr msg, DbcMessage * message)
-{
-	DbwReserved1f21 out;
-	out.stamp = msg->header.stamp;
-
-	
-
-	pubDbwReserved1f21_->publish(out);
-}
-
-void RaptorDbwCAN::recvDbwReserved1f22(const Frame::SharedPtr msg, DbcMessage * message)
-{
-	DbwReserved1f22 out;
-	out.stamp = msg->header.stamp;
-
-	
-
-	pubDbwReserved1f22_->publish(out);
-}
-
-void RaptorDbwCAN::recvDbwReserved1f23(const Frame::SharedPtr msg, DbcMessage * message)
-{
-	DbwReserved1f23 out;
-	out.stamp = msg->header.stamp;
-
-	
-
-	pubDbwReserved1f23_->publish(out);
-}
-
-void RaptorDbwCAN::recvAkitReserved2f07(const Frame::SharedPtr msg, DbcMessage * message)
-{
-	AkitReserved2f07 out;
-	out.stamp = msg->header.stamp;
-
-	
-
-	pubAkitReserved2f07_->publish(out);
-}
-
-void RaptorDbwCAN::recvAkitReserved2f08(const Frame::SharedPtr msg, DbcMessage * message)
-{
-	AkitReserved2f08 out;
-	out.stamp = msg->header.stamp;
-
-	
-
-	pubAkitReserved2f08_->publish(out);
-}
-
-void RaptorDbwCAN::recvAkitReserved2f09(const Frame::SharedPtr msg, DbcMessage * message)
-{
-	AkitReserved2f09 out;
-	out.stamp = msg->header.stamp;
-
-	
-
-	pubAkitReserved2f09_->publish(out);
-}
-
-void RaptorDbwCAN::recvDbwReserved1f25(const Frame::SharedPtr msg, DbcMessage * message)
-{
-	DbwReserved1f25 out;
-	out.stamp = msg->header.stamp;
-
-	
-
-	pubDbwReserved1f25_->publish(out);
-}
-
 void RaptorDbwCAN::recvAkitAccelpdlrequest(const AkitAccelpdlrequest::SharedPtr msg)
 {
-	NewEagle::DbcMessage * message = dbw_dbc_.GetMessageById(ID_AKIT_ACCELPDLREQUEST);
+	NewEagle::DbcMessage * message = dbc_.GetMessageById(ID_AKIT_ACCELPDLREQUEST);
 
 	message->GetSignal("AKit_AccelPdlReq")->SetResult(msg->akit_accelpdlreq);
 	message->GetSignal("AKit_AccelPcntTorqueReq")->SetResult(msg->akit_accelpcnttorquereq);
@@ -746,7 +609,7 @@ void RaptorDbwCAN::recvAkitAccelpdlrequest(const AkitAccelpdlrequest::SharedPtr 
 
 void RaptorDbwCAN::recvAkitGlobalenbl(const AkitGlobalenbl::SharedPtr msg)
 {
-	NewEagle::DbcMessage * message = dbw_dbc_.GetMessageById(ID_AKIT_GLOBALENBL);
+	NewEagle::DbcMessage * message = dbc_.GetMessageById(ID_AKIT_GLOBALENBL);
 
 	message->GetSignal("AKit_GlobalByWireEnblReq")->SetResult(msg->akit_globalbywireenblreq);
 	message->GetSignal("AKit_EnblJoystickLimits")->SetResult(msg->akit_enbljoysticklimits);
@@ -760,7 +623,7 @@ void RaptorDbwCAN::recvAkitGlobalenbl(const AkitGlobalenbl::SharedPtr msg)
 
 void RaptorDbwCAN::recvAkitSteeringrequest(const AkitSteeringrequest::SharedPtr msg)
 {
-	NewEagle::DbcMessage * message = dbw_dbc_.GetMessageById(ID_AKIT_STEERINGREQUEST);
+	NewEagle::DbcMessage * message = dbc_.GetMessageById(ID_AKIT_STEERINGREQUEST);
 
 	message->GetSignal("AKit_SteeringWhlAngleReq")->SetResult(msg->akit_steeringwhlanglereq);
 	message->GetSignal("AKit_SteeringWhlPcntTrqReq")->SetResult(msg->akit_steeringwhlpcnttrqreq);
@@ -778,7 +641,7 @@ void RaptorDbwCAN::recvAkitSteeringrequest(const AkitSteeringrequest::SharedPtr 
 
 void RaptorDbwCAN::recvAkitBrakerequest(const AkitBrakerequest::SharedPtr msg)
 {
-	NewEagle::DbcMessage * message = dbw_dbc_.GetMessageById(ID_AKIT_BRAKEREQUEST);
+	NewEagle::DbcMessage * message = dbc_.GetMessageById(ID_AKIT_BRAKEREQUEST);
 
 	message->GetSignal("AKit_BrakePedalReq")->SetResult(msg->akit_brakepedalreq);
 	message->GetSignal("AKit_BrakePcntTorqueReq")->SetResult(msg->akit_brakepcnttorquereq);
@@ -796,7 +659,7 @@ void RaptorDbwCAN::recvAkitBrakerequest(const AkitBrakerequest::SharedPtr msg)
 
 void RaptorDbwCAN::recvAkitPrndrequest(const AkitPrndrequest::SharedPtr msg)
 {
-	NewEagle::DbcMessage * message = dbw_dbc_.GetMessageById(ID_AKIT_PRNDREQUEST);
+	NewEagle::DbcMessage * message = dbc_.GetMessageById(ID_AKIT_PRNDREQUEST);
 
 	message->GetSignal("AKit_PrndStateReq")->SetResult(msg->akit_prndstatereq);
 	message->GetSignal("AKit_PrndRollingCntr")->SetResult(msg->akit_prndrollingcntr);

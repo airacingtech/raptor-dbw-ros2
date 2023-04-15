@@ -22,9 +22,9 @@ def generate_launch_description():
 
     dbc_file_path = DeclareLaunchArgument(
         'dbc_file_path',
-        default_value=os.path.join(pkg_dir, "config", 'New_Eagle_DBW_3.4.dbc'))
+        default_value=os.path.join(pkg_dir, "config", 'New_Eagle_DBW_3.3.dbc'))
 
-    raptor_param_file = os.path.join(pkg_dir, "param", "raptor.param.yaml")
+    raptor_dbw_param_file = os.path.join(pkg_dir, "param", "raptor_dbw.param.yaml")
 
     socket_can_receiver_node = LifecycleNode(
         package="ros2_socketcan",
@@ -123,14 +123,14 @@ def generate_launch_description():
         condition=IfCondition(LaunchConfiguration("auto_activate")),
     )
 
-    raptor_node = Node(
+    raptor_dbw_node = Node(
         package='raptor_dbw_can',
         executable='raptor_dbw_can_node',
         output='screen',
         namespace='raptor_dbw_interface',
         parameters=[
-            raptor_param_file,
-            {'dbw_dbc_file': LaunchConfiguration('dbc_file_path')},
+            raptor_dbw_param_file,
+            {'dbc_file': LaunchConfiguration('dbc_file_path')},
         ],
         remappings=[
             ('can_tx', '/from_can_bus'),
@@ -154,7 +154,7 @@ def generate_launch_description():
         socket_can_sender_node,
         socket_can_sender_configure_event_handler,
         socket_can_sender_activate_event_handler,
-        raptor_node,
+        raptor_dbw_node,
         dbc_file_path
     ]
 

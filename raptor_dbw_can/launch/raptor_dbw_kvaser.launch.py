@@ -55,9 +55,9 @@ import os
 
 def generate_launch_description():
     package_dir = get_package_share_directory('raptor_dbw_can')
-    raptor_params_file = LaunchConfiguration(
-        'raptor_params',
-        default=[os.path.join(package_dir, 'param', 'raptor.param.yaml')]
+    raptor_dbw_params_file = LaunchConfiguration(
+        'raptor_dbw_params',
+        default=[os.path.join(package_dir, 'param', 'raptor_dbw.param.yaml')]
     )
     kvaser_params_file = LaunchConfiguration(
         'kvaser_params',
@@ -65,7 +65,7 @@ def generate_launch_description():
     )
 
     # make sure the dbc file gets installed with the launch file
-    dbc_file_path = os.path.join(package_dir, 'config', 'New_Eagle_DBW_3.4.dbc')
+    dbc_file_path = os.path.join(package_dir, 'config', 'New_Eagle_DBW_3.3.dbc')
 
     return LaunchDescription(
         [
@@ -75,8 +75,8 @@ def generate_launch_description():
                 output='screen',
                 namespace='raptor_dbw_interface',
                 parameters=[
-                    {'dbw_dbc_file': dbc_file_path},
-                    raptor_params_file
+                    {'dbc_file': dbc_file_path},
+                    raptor_dbw_params_file
                 ],
             ),
             Node(

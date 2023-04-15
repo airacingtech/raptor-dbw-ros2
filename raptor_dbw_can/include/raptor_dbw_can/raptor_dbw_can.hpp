@@ -71,15 +71,6 @@
 #include "raptor_dbw_msgs/msg/dbw_faultactionsreport.hpp"
 #include "raptor_dbw_msgs/msg/dbw_gpsreference.hpp"
 #include "raptor_dbw_msgs/msg/dbw_gpsremainder.hpp"
-#include "raptor_dbw_msgs/msg/dbw_exitreport.hpp"
-#include "raptor_dbw_msgs/msg/dbw_reserved1f20.hpp"
-#include "raptor_dbw_msgs/msg/dbw_reserved1f21.hpp"
-#include "raptor_dbw_msgs/msg/dbw_reserved1f22.hpp"
-#include "raptor_dbw_msgs/msg/dbw_reserved1f23.hpp"
-#include "raptor_dbw_msgs/msg/akit_reserved2f07.hpp"
-#include "raptor_dbw_msgs/msg/akit_reserved2f08.hpp"
-#include "raptor_dbw_msgs/msg/akit_reserved2f09.hpp"
-#include "raptor_dbw_msgs/msg/dbw_reserved1f25.hpp"
 
 #include "can_dbc_parser/DbcMessage.hpp"
 #include "can_dbc_parser/DbcSignal.hpp"
@@ -118,15 +109,6 @@ using raptor_dbw_msgs::msg::DbwOtheractuatorsreport;
 using raptor_dbw_msgs::msg::DbwFaultactionsreport;
 using raptor_dbw_msgs::msg::DbwGpsreference;
 using raptor_dbw_msgs::msg::DbwGpsremainder;
-using raptor_dbw_msgs::msg::DbwExitreport;
-using raptor_dbw_msgs::msg::DbwReserved1f20;
-using raptor_dbw_msgs::msg::DbwReserved1f21;
-using raptor_dbw_msgs::msg::DbwReserved1f22;
-using raptor_dbw_msgs::msg::DbwReserved1f23;
-using raptor_dbw_msgs::msg::AkitReserved2f07;
-using raptor_dbw_msgs::msg::AkitReserved2f08;
-using raptor_dbw_msgs::msg::AkitReserved2f09;
-using raptor_dbw_msgs::msg::DbwReserved1f25;
 
 namespace raptor_dbw_can
 {
@@ -167,15 +149,6 @@ private:
 	void recvDbwFaultactionsreport(const Frame::SharedPtr msg, DbcMessage * message);
 	void recvDbwGpsreference(const Frame::SharedPtr msg, DbcMessage * message);
 	void recvDbwGpsremainder(const Frame::SharedPtr msg, DbcMessage * message);
-	void recvDbwExitreport(const Frame::SharedPtr msg, DbcMessage * message);
-	void recvDbwReserved1f20(const Frame::SharedPtr msg, DbcMessage * message);
-	void recvDbwReserved1f21(const Frame::SharedPtr msg, DbcMessage * message);
-	void recvDbwReserved1f22(const Frame::SharedPtr msg, DbcMessage * message);
-	void recvDbwReserved1f23(const Frame::SharedPtr msg, DbcMessage * message);
-	void recvAkitReserved2f07(const Frame::SharedPtr msg, DbcMessage * message);
-	void recvAkitReserved2f08(const Frame::SharedPtr msg, DbcMessage * message);
-	void recvAkitReserved2f09(const Frame::SharedPtr msg, DbcMessage * message);
-	void recvDbwReserved1f25(const Frame::SharedPtr msg, DbcMessage * message);
 
     void recvAkitAccelpdlrequest(const AkitAccelpdlrequest::SharedPtr msg);
 	void recvAkitGlobalenbl(const AkitGlobalenbl::SharedPtr msg);
@@ -186,7 +159,7 @@ private:
     std::uint8_t vehicle_number_;
 
     // Parameters from launch
-    std::string dbw_dbc_file_;
+    std::string dbc_file_;
     float max_steer_angle_;
     bool publish_my_laps_;
 
@@ -217,15 +190,6 @@ private:
 	rclcpp::Subscription<DbwFaultactionsreport>::SharedPtr subDbwFaultactionsreport_;
 	rclcpp::Subscription<DbwGpsreference>::SharedPtr subDbwGpsreference_;
 	rclcpp::Subscription<DbwGpsremainder>::SharedPtr subDbwGpsremainder_;
-	rclcpp::Subscription<DbwExitreport>::SharedPtr subDbwExitreport_;
-	rclcpp::Subscription<DbwReserved1f20>::SharedPtr subDbwReserved1f20_;
-	rclcpp::Subscription<DbwReserved1f21>::SharedPtr subDbwReserved1f21_;
-	rclcpp::Subscription<DbwReserved1f22>::SharedPtr subDbwReserved1f22_;
-	rclcpp::Subscription<DbwReserved1f23>::SharedPtr subDbwReserved1f23_;
-	rclcpp::Subscription<AkitReserved2f07>::SharedPtr subAkitReserved2f07_;
-	rclcpp::Subscription<AkitReserved2f08>::SharedPtr subAkitReserved2f08_;
-	rclcpp::Subscription<AkitReserved2f09>::SharedPtr subAkitReserved2f09_;
-	rclcpp::Subscription<DbwReserved1f25>::SharedPtr subDbwReserved1f25_;
     rclcpp::Subscription<Frame>::SharedPtr sub_can_;
 
     rclcpp::Publisher<DbwMisc>::SharedPtr pubDbwMisc_;
@@ -255,18 +219,9 @@ private:
 	rclcpp::Publisher<DbwFaultactionsreport>::SharedPtr pubDbwFaultactionsreport_;
 	rclcpp::Publisher<DbwGpsreference>::SharedPtr pubDbwGpsreference_;
 	rclcpp::Publisher<DbwGpsremainder>::SharedPtr pubDbwGpsremainder_;
-	rclcpp::Publisher<DbwExitreport>::SharedPtr pubDbwExitreport_;
-	rclcpp::Publisher<DbwReserved1f20>::SharedPtr pubDbwReserved1f20_;
-	rclcpp::Publisher<DbwReserved1f21>::SharedPtr pubDbwReserved1f21_;
-	rclcpp::Publisher<DbwReserved1f22>::SharedPtr pubDbwReserved1f22_;
-	rclcpp::Publisher<DbwReserved1f23>::SharedPtr pubDbwReserved1f23_;
-	rclcpp::Publisher<AkitReserved2f07>::SharedPtr pubAkitReserved2f07_;
-	rclcpp::Publisher<AkitReserved2f08>::SharedPtr pubAkitReserved2f08_;
-	rclcpp::Publisher<AkitReserved2f09>::SharedPtr pubAkitReserved2f09_;
-	rclcpp::Publisher<DbwReserved1f25>::SharedPtr pubDbwReserved1f25_;
     rclcpp::Publisher<Frame>::SharedPtr pub_can_;
 
-    NewEagle::Dbc dbw_dbc_;
+    NewEagle::Dbc dbc_;
 };
 
 }  // namespace raptor_dbw_can
