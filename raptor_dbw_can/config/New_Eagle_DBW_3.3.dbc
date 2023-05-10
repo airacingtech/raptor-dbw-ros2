@@ -78,8 +78,8 @@ BO_ 2147491587 DBW_SteeringReport: 8 DBW
  SG_ DBW_SteeringOverheatWarning : 52|1@1+ (1,0) [0|1] "Bool" Vector__XXX
 
 BO_ 2147491588 DBW_BrakeReport: 8 DBW
- SG_ DBW_BrakePdlDriverInput : 0|16@1+ (0.1,0) [0|100] "%-pedal" Vector__XXX
- SG_ DBW_BrakePdlPosnFdbck : 16|16@1+ (0.1,0) [0|100] "%-pedal" Vector__XXX
+ SG_ DBW_BrakePdlDriverInput : 0|16@1+ (0.1,0) [0|1023] "kPa" Vector__XXX
+ SG_ DBW_BrakePdlPosnFdbck : 16|16@1+ (0.1,0) [0|1023] "kPa" Vector__XXX
  SG_ DBW_BrakeEnabled : 48|1@1+ (1,0) [0|1] "Bool" Vector__XXX
  SG_ DBW_BrakeDriverActivity : 50|1@1+ (1,0) [0|1] "Bool" Vector__XXX
  SG_ DBW_BrakeFault : 51|1@1+ (1,0) [0|1] "Bool" Vector__XXX
@@ -156,7 +156,7 @@ BO_ 2147495683 AKit_SteeringRequest: 8 AKit
  SG_ AKit_SteeringChecksum : 56|8@1+ (1,0) [0|255] "" Vector__XXX
 
 BO_ 2147495684 AKit_BrakeRequest: 8 AKit
- SG_ AKit_BrakePedalReq m0 : 0|14@1+ (0.1,0) [0|1000] "kPa" Vector__XXX
+ SG_ AKit_BrakePedalReq m0 : 0|14@1+ (0.1,0) [0|1023] "kPa" Vector__XXX
  SG_ AKit_BrakeRollingCntr : 48|4@1+ (1,0) [0|15] "" Vector__XXX
  SG_ AKit_BrakeCtrlEnblReq : 52|1@1+ (1,0) [0|1] "Bool" Vector__XXX
  SG_ AKit_BrakeCtrlReqType M : 40|3@0+ (1,0) [0|7] "Enum" Vector__XXX
