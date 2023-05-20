@@ -34,6 +34,7 @@ set(msg_files
 	"msg/AkitOtheractuators.msg"
 	"msg/AkitSteeringrequest.msg"
 	"msg/AkitBrakerequest.msg"
+	"msg/BrakePressureReport.msg"
 	"msg/AkitPrndrequest.msg"
 	"msg/DbwDriverinputs.msg"
 	"msg/DbwTirepressreport.msg"

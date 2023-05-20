@@ -55,6 +55,7 @@
 #include "raptor_dbw_msgs/msg/akit_otheractuators.hpp"
 #include "raptor_dbw_msgs/msg/akit_steeringrequest.hpp"
 #include "raptor_dbw_msgs/msg/akit_brakerequest.hpp"
+#include "raptor_dbw_msgs/msg/brake_pressure_report.hpp"
 #include "raptor_dbw_msgs/msg/akit_prndrequest.hpp"
 #include "raptor_dbw_msgs/msg/dbw_driverinputs.hpp"
 #include "raptor_dbw_msgs/msg/dbw_tirepressreport.hpp"
@@ -93,6 +94,7 @@ using raptor_dbw_msgs::msg::AkitGlobalenbl;
 using raptor_dbw_msgs::msg::AkitOtheractuators;
 using raptor_dbw_msgs::msg::AkitSteeringrequest;
 using raptor_dbw_msgs::msg::AkitBrakerequest;
+using raptor_dbw_msgs::msg::BrakePressureReport;
 using raptor_dbw_msgs::msg::AkitPrndrequest;
 using raptor_dbw_msgs::msg::DbwDriverinputs;
 using raptor_dbw_msgs::msg::DbwTirepressreport;
@@ -134,6 +136,7 @@ private:
 	void recvDbwPrndreport(const Frame::SharedPtr msg, DbcMessage * message);
 	void recvDbwWheelpositionreport(const Frame::SharedPtr msg, DbcMessage * message);
 	void recvAkitOtheractuators(const Frame::SharedPtr msg, DbcMessage * message);
+	void recvBrakePressureReport(const Frame::SharedPtr msg, DbcMessage * message);
 	void recvDbwDriverinputs(const Frame::SharedPtr msg, DbcMessage * message);
 	void recvDbwTirepressreport(const Frame::SharedPtr msg, DbcMessage * message);
 	void recvDbwVinreport(const Frame::SharedPtr msg, DbcMessage * message);
@@ -174,6 +177,7 @@ private:
 	rclcpp::Subscription<AkitOtheractuators>::SharedPtr subAkitOtheractuators_;
 	rclcpp::Subscription<AkitSteeringrequest>::SharedPtr subAkitSteeringrequest_;
 	rclcpp::Subscription<AkitBrakerequest>::SharedPtr subAkitBrakerequest_;
+	rclcpp::Subscription<BrakePressureReport>::SharedPtr subBrakePressureReport_;
 	rclcpp::Subscription<AkitPrndrequest>::SharedPtr subAkitPrndrequest_;
 	rclcpp::Subscription<DbwDriverinputs>::SharedPtr subDbwDriverinputs_;
 	rclcpp::Subscription<DbwTirepressreport>::SharedPtr subDbwTirepressreport_;
@@ -203,6 +207,7 @@ private:
 	rclcpp::Publisher<AkitOtheractuators>::SharedPtr pubAkitOtheractuators_;
 	rclcpp::Publisher<AkitSteeringrequest>::SharedPtr pubAkitSteeringrequest_;
 	rclcpp::Publisher<AkitBrakerequest>::SharedPtr pubAkitBrakerequest_;
+	rclcpp::Publisher<BrakePressureReport>::SharedPtr pubBrakePressureReport_;
 	rclcpp::Publisher<AkitPrndrequest>::SharedPtr pubAkitPrndrequest_;
 	rclcpp::Publisher<DbwDriverinputs>::SharedPtr pubDbwDriverinputs_;
 	rclcpp::Publisher<DbwTirepressreport>::SharedPtr pubDbwTirepressreport_;

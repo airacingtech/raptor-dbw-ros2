@@ -55,6 +55,7 @@ RaptorDbwCAN::RaptorDbwCAN(const rclcpp::NodeOptions & options)
 	pubDbwPrndreport_ = this->create_publisher<DbwPrndreport>("dbw_prndreport", rclcpp::SensorDataQoS());
 	pubDbwWheelpositionreport_ = this->create_publisher<DbwWheelpositionreport>("dbw_wheelpositionreport", rclcpp::SensorDataQoS());
 	pubAkitOtheractuators_ = this->create_publisher<AkitOtheractuators>("akit_otheractuators", rclcpp::SensorDataQoS());
+	pubBrakePressureReport_ = this->create_publisher<BrakePressureReport>("brake_pressure_report", rclcpp::SensorDataQoS());
 	pubDbwDriverinputs_ = this->create_publisher<DbwDriverinputs>("dbw_driverinputs", rclcpp::SensorDataQoS());
 	pubDbwTirepressreport_ = this->create_publisher<DbwTirepressreport>("dbw_tirepressreport", rclcpp::SensorDataQoS());
 	pubDbwVinreport_ = this->create_publisher<DbwVinreport>("dbw_vinreport", rclcpp::SensorDataQoS());
@@ -114,6 +115,9 @@ void RaptorDbwCAN::recvCAN(const Frame::SharedPtr msg)
 				break;
 			case ID_AKIT_OTHERACTUATORS:
 				RECV_DBC(recvAkitOtheractuators);
+				break;
+			case ID_BRAKE_PRESSURE_REPORT:
+				RECV_DBC(recvBrakePressureReport);
 				break;
 			case ID_DBW_DRIVERINPUTS:
 				RECV_DBC(recvDbwDriverinputs);
@@ -297,6 +301,18 @@ void RaptorDbwCAN::recvAkitOtheractuators(const Frame::SharedPtr msg, DbcMessage
 	out.akit_otherchecksum = message->GetSignal("AKit_OtherChecksum")->GetResult();
 
 	pubAkitOtheractuators_->publish(out);
+}
+
+void RaptorDbwCAN::recvBrakePressureReport(const Frame::SharedPtr msg, DbcMessage * message)
+{
+	BrakePressureReport out;
+	out.stamp = msg->header.stamp;
+
+	out.brake_pressure_fdbk_front = message->GetSignal("brake_pressure_fdbk_front")->GetResult();
+	out.brake_pressure_fdbk_rear = message->GetSignal("brake_pressure_fdbk_rear")->GetResult();
+	out.brk_pressure_fdbk_counter = message->GetSignal("brk_pressure_fdbk_counter")->GetResult();
+
+	pubBrakePressureReport_->publish(out);
 }
 
 void RaptorDbwCAN::recvDbwDriverinputs(const Frame::SharedPtr msg, DbcMessage * message)

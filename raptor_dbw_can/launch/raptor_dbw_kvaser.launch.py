@@ -65,7 +65,7 @@ def generate_launch_description():
     )
 
     # make sure the dbc file gets installed with the launch file
-    dbc_file_path = os.path.join(package_dir, 'config', 'New_Eagle_DBW_3.3.dbc')
+    dbc_file_path = os.path.join(package_dir, 'config', 'New_Eagle_DBW_3.4.dbc')
 
     return LaunchDescription(
         [

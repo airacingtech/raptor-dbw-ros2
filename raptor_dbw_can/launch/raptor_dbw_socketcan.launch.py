@@ -22,7 +22,7 @@ def generate_launch_description():
 
     dbc_file_path = DeclareLaunchArgument(
         'dbc_file_path',
-        default_value=os.path.join(pkg_dir, "config", 'New_Eagle_DBW_3.3.dbc'))
+        default_value=os.path.join(pkg_dir, "config", 'New_Eagle_DBW_3.4.dbc'))
 
     raptor_dbw_param_file = os.path.join(pkg_dir, "param", "raptor_dbw.param.yaml")
 

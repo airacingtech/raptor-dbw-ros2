@@ -1,0 +1,5 @@
+builtin_interfaces/Time stamp
+
+uint16 brake_pressure_fdbk_front
+uint16 brake_pressure_fdbk_rear
+uint8 brk_pressure_fdbk_counter
