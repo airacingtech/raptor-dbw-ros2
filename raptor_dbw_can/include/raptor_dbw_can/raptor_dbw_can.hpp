@@ -72,6 +72,8 @@
 #include "raptor_dbw_msgs/msg/dbw_faultactionsreport.hpp"
 #include "raptor_dbw_msgs/msg/dbw_gpsreference.hpp"
 #include "raptor_dbw_msgs/msg/dbw_gpsremainder.hpp"
+#include "raptor_dbw_msgs/msg/brake_control.hpp"
+#include "raptor_dbw_msgs/msg/brake_position_report.hpp"
 
 #include "can_dbc_parser/DbcMessage.hpp"
 #include "can_dbc_parser/DbcSignal.hpp"
@@ -111,6 +113,8 @@ using raptor_dbw_msgs::msg::DbwOtheractuatorsreport;
 using raptor_dbw_msgs::msg::DbwFaultactionsreport;
 using raptor_dbw_msgs::msg::DbwGpsreference;
 using raptor_dbw_msgs::msg::DbwGpsremainder;
+using raptor_dbw_msgs::msg::BrakeControl;
+using raptor_dbw_msgs::msg::BrakePositionReport;
 
 namespace raptor_dbw_can
 {
@@ -152,6 +156,8 @@ private:
 	void recvDbwFaultactionsreport(const Frame::SharedPtr msg, DbcMessage * message);
 	void recvDbwGpsreference(const Frame::SharedPtr msg, DbcMessage * message);
 	void recvDbwGpsremainder(const Frame::SharedPtr msg, DbcMessage * message);
+	void recvBrakeControl(const Frame::SharedPtr msg, DbcMessage * message);
+	void recvBrakePositionReport(const Frame::SharedPtr msg, DbcMessage * message);
 
     void recvAkitAccelpdlrequest(const AkitAccelpdlrequest::SharedPtr msg);
 	void recvAkitGlobalenbl(const AkitGlobalenbl::SharedPtr msg);
@@ -194,6 +200,8 @@ private:
 	rclcpp::Subscription<DbwFaultactionsreport>::SharedPtr subDbwFaultactionsreport_;
 	rclcpp::Subscription<DbwGpsreference>::SharedPtr subDbwGpsreference_;
 	rclcpp::Subscription<DbwGpsremainder>::SharedPtr subDbwGpsremainder_;
+	rclcpp::Subscription<BrakeControl>::SharedPtr subBrakeControl_;
+	rclcpp::Subscription<BrakePositionReport>::SharedPtr subBrakePositionReport_;
     rclcpp::Subscription<Frame>::SharedPtr sub_can_;
 
     rclcpp::Publisher<DbwMisc>::SharedPtr pubDbwMisc_;
@@ -224,6 +232,8 @@ private:
 	rclcpp::Publisher<DbwFaultactionsreport>::SharedPtr pubDbwFaultactionsreport_;
 	rclcpp::Publisher<DbwGpsreference>::SharedPtr pubDbwGpsreference_;
 	rclcpp::Publisher<DbwGpsremainder>::SharedPtr pubDbwGpsremainder_;
+	rclcpp::Publisher<BrakeControl>::SharedPtr pubBrakeControl_;
+	rclcpp::Publisher<BrakePositionReport>::SharedPtr pubBrakePositionReport_;
     rclcpp::Publisher<Frame>::SharedPtr pub_can_;
 
     NewEagle::Dbc dbc_;

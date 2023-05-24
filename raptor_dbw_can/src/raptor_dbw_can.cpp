@@ -71,6 +71,8 @@ RaptorDbwCAN::RaptorDbwCAN(const rclcpp::NodeOptions & options)
 	pubDbwFaultactionsreport_ = this->create_publisher<DbwFaultactionsreport>("dbw_faultactionsreport", rclcpp::SensorDataQoS());
 	pubDbwGpsreference_ = this->create_publisher<DbwGpsreference>("dbw_gpsreference", rclcpp::SensorDataQoS());
 	pubDbwGpsremainder_ = this->create_publisher<DbwGpsremainder>("dbw_gpsremainder", rclcpp::SensorDataQoS());
+	pubBrakeControl_ = this->create_publisher<BrakeControl>("brake_control", rclcpp::SensorDataQoS());
+	pubBrakePositionReport_ = this->create_publisher<BrakePositionReport>("brake_position_report", rclcpp::SensorDataQoS());
 
     subAkitAccelpdlrequest_ = this->create_subscription<AkitAccelpdlrequest>("akit_accelpdlrequest", rclcpp::SensorDataQoS(), std::bind(&RaptorDbwCAN::recvAkitAccelpdlrequest, this, std::placeholders::_1));
 	subAkitGlobalenbl_ = this->create_subscription<AkitGlobalenbl>("akit_globalenbl", rclcpp::SensorDataQoS(), std::bind(&RaptorDbwCAN::recvAkitGlobalenbl, this, std::placeholders::_1));
@@ -163,6 +165,12 @@ void RaptorDbwCAN::recvCAN(const Frame::SharedPtr msg)
 				break;
 			case ID_DBW_GPSREMAINDER:
 				RECV_DBC(recvDbwGpsremainder);
+				break;
+			case ID_BRAKE_CONTROL:
+				RECV_DBC(recvBrakeControl);
+				break;
+			case ID_BRAKE_POSITION_REPORT:
+				RECV_DBC(recvBrakePositionReport);
 				break;
             default:
                 break;
@@ -311,6 +319,10 @@ void RaptorDbwCAN::recvBrakePressureReport(const Frame::SharedPtr msg, DbcMessag
 	out.brake_pressure_fdbk_front = message->GetSignal("brake_pressure_fdbk_front")->GetResult();
 	out.brake_pressure_fdbk_rear = message->GetSignal("brake_pressure_fdbk_rear")->GetResult();
 	out.brk_pressure_fdbk_counter = message->GetSignal("brk_pressure_fdbk_counter")->GetResult();
+
+	// out.brake_pressure_fdbk_rear = (2.59 * ((out.brake_pressure_fdbk_rear + 2341)/4.67)) - 1293;
+	out.brake_pressure_fdbk_front = ((out.brake_pressure_fdbk_rear + 2341)/4.67);
+	// out.brake_pressure_fdbk_rear = (2.56 * ((out.brake_pressure_fdbk_rear + 2341)/4.67)) - 1179;
 
 	pubBrakePressureReport_->publish(out);
 }
@@ -601,6 +613,37 @@ void RaptorDbwCAN::recvDbwGpsremainder(const Frame::SharedPtr msg, DbcMessage * 
 	out.dbw_gpsremainderlong = message->GetSignal("DBW_GpsRemainderLong")->GetResult();
 
 	pubDbwGpsremainder_->publish(out);
+}
+
+void RaptorDbwCAN::recvBrakeControl(const Frame::SharedPtr msg, DbcMessage * message)
+{
+	BrakeControl out;
+	out.stamp = msg->header.stamp;
+
+	out.position_command = message->GetSignal("Position_Command")->GetResult();
+	out.datatype = message->GetSignal("Datatype")->GetResult();
+	out.autoreply_flag = message->GetSignal("Autoreply_Flag")->GetResult();
+	out.confirmation_flag = message->GetSignal("Confirmation_Flag")->GetResult();
+	out.dpos_low = message->GetSignal("DPOS_LOW")->GetResult();
+	out.dpos_hi = message->GetSignal("DPOS_HI")->GetResult();
+	out.motor_enable = message->GetSignal("Motor_Enable")->GetResult();
+	out.clutch_enable = message->GetSignal("Clutch_Enable")->GetResult();
+
+	pubBrakeControl_->publish(out);
+}
+
+void RaptorDbwCAN::recvBrakePositionReport(const Frame::SharedPtr msg, DbcMessage * message)
+{
+	BrakePositionReport out;
+	out.stamp = msg->header.stamp;
+
+	out.messagetype = message->GetSignal("MessageType")->GetResult();
+	out.confirmationflag = message->GetSignal("ConfirmationFlag")->GetResult();
+	out.autoreplyflag = message->GetSignal("AutoReplyFlag")->GetResult();
+	out.datatype = message->GetSignal("DataType")->GetResult();
+	out.shaftextension = message->GetSignal("ShaftExtension")->GetResult();
+
+	pubBrakePositionReport_->publish(out);
 }
 
 void RaptorDbwCAN::recvAkitAccelpdlrequest(const AkitAccelpdlrequest::SharedPtr msg)

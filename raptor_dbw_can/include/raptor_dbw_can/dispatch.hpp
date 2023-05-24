@@ -63,6 +63,8 @@ enum ListMessageIDs
 	ID_DBW_FAULTACTIONSREPORT = 0x1f15,
 	ID_DBW_GPSREFERENCE = 0x1f16,
 	ID_DBW_GPSREMAINDER = 0x1f17,
+	ID_BRAKE_CONTROL = 0xff0000,
+	ID_BRAKE_POSITION_REPORT = 0xff0001,
 };
 
 }  // namespace raptor_dbw_can

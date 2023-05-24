@@ -359,7 +359,22 @@ BO_ 2147491607 DBW_GpsRemainder: 8 DBW
  SG_ DBW_GpsRemainderLat : 0|24@1- (0.001,0) [-8388.607|8388.608] "m" Vector__XXX
  SG_ DBW_GpsRemainderLong : 32|24@1- (0.001,0) [-8388.607|8388.61] "m" Vector__XXX
 
+BO_ 2164195328 Brake_Control: 8 Vector__XXX
+ SG_ Position_Command : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ DPOS_LOW : 16|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Confirmation_Flag : 15|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Autoreply_Flag : 14|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Datatype : 8|6@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ DPOS_HI : 24|6@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Motor_Enable : 30|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ Clutch_Enable : 31|1@1+ (1,0) [0|0] "" Vector__XXX
 
+BO_ 2164195329 Brake_Position_Report: 8 Vector__XXX
+ SG_ ConfirmationFlag : 8|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ AutoReplyFlag : 9|1@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ DataType : 10|6@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ MessageType : 0|8@1+ (1,0) [0|0] "" Vector__XXX
+ SG_ ShaftExtension : 16|16@1+ (1,0) [0|0] "" Vector__XXX
 
 CM_ BU_ Pacifica "Just added a custom VIN-read message from this module";
 CM_ BU_ MPDM_Master "Whichever module directly controls MPDM would be the MPDM Master (broadcasts status to other modules)";

@@ -51,6 +51,8 @@ set(msg_files
 	"msg/DbwFaultactionsreport.msg"
 	"msg/DbwGpsreference.msg"
 	"msg/DbwGpsremainder.msg"
+	"msg/BrakeControl.msg"
+	"msg/BrakePositionReport.msg"
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}
